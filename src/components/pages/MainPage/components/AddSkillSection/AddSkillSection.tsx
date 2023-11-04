@@ -1,144 +1,85 @@
-import React, { useState } from "react";
-import { Form, InputGroup, Button } from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { AddSkillModal } from "../AddSkillModal";
+import React, { useCallback, useState } from "react";
+import { Form, Button, Accordion } from "react-bootstrap";
+import styles from "./styles.module.scss";
+import { debounce } from "lodash";
 
 const AddSkillSection = () => {
-  const [skills, setSkills] = useState([
-    { name: "Software Development", value: "Beginner" },
-    { name: "Artificial Intelligence", value: "Beginner" },
-    { name: "Cloud Computing", value: "Beginner" },
-    { name: "Problem Solving", value: "Beginner" },
-    { name: "Time Management", value: "Beginner" },
-  ]);
+  const [resume, setResume] = useState<string>("");
+  const [interests, setInterests] = useState<string>("");
+  const [essay, setEssay] = useState<string>("");
 
-  const [showModal, setShowModal] = useState(false);
-
-  const handleShowModal = () => setShowModal(true);
-  const handleCloseModal = () => setShowModal(false);
-
-  const addSkill = (newSkill: string) => {
-    setSkills([...skills, { name: newSkill, value: "Beginner" }]);
-    setShowModal(false);
-  };
+  const handleDebouncedSubmit = useCallback(
+    debounce(() => {
+      fetch("/api/professors", {
+        method: "POST",
+        body: JSON.stringify({
+          resume,
+          interests,
+          essay,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+        });
+    }, 1000),
+    [resume, interests, essay]
+  );
 
   return (
-    <section
-      className="mt-3"
-      style={{
-        margin: "0px 200px",
-        height: "calc(100vh - 70px)",
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          gap: "10px",
-        }}
-      >
-        {/* Job Description */}
-        <div
-          style={{
-            width: "50%",
-          }}
-        >
-          <h2
-            style={{
-              padding: "10px",
-              textAlign: "center",
-              marginBottom: "20px",
-              fontSize: "1.5em",
-              color: "white",
-            }}
-          >
-            Upload Job Description
-          </h2>
-          <Form.Group>
+    <>
+      <Accordion defaultActiveKey={"resume_desc"} id={"resume_desc"}>
+        <Accordion.Item eventKey="0">
+          <Accordion.Header>Paste your resume</Accordion.Header>
+          <Accordion.Body>
             <Form.Control
               as="textarea"
               id="jobDescription"
-              style={{
-                width: "100%",
-                height: "260px",
-                padding: "10px",
-                marginBottom: "10px",
-                border: "1px solid #ccc",
-                borderRadius: "6px",
-                resize: "vertical",
-              }}
+              className={styles.textarea}
+              value={resume}
+              onChange={(e) => setResume(e.target.value)}
             />
-          </Form.Group>
-        </div>
+          </Accordion.Body>
+        </Accordion.Item>
+      </Accordion>
+      <Accordion defaultActiveKey={"interests"} id={"interests"}>
+        <Accordion.Item eventKey="0">
+          <Accordion.Header>Your interests</Accordion.Header>
+          <Accordion.Body>
+            <Form.Control
+              as="textarea"
+              id="jobDescription"
+              className={styles.textarea}
+              value={interests}
+              onChange={(e) => setInterests(e.target.value)}
+            />
+          </Accordion.Body>
+        </Accordion.Item>
+      </Accordion>
+      <Accordion defaultActiveKey={"resume_desc"} id={"resume_desc"}>
+        <Accordion.Item eventKey="0">
+          <Accordion.Header>Draft Essay</Accordion.Header>
+          <Accordion.Body>
+            <Form.Control
+              as="textarea"
+              id="jobDescription"
+              className={styles.textarea}
+              value={essay}
+              onChange={(e) => setEssay(e.target.value)}
+            />
+          </Accordion.Body>
+        </Accordion.Item>
+      </Accordion>
 
-        {/* Skill Levels */}
-        <div
-          style={{
-            width: "50%",
-          }}
-        >
-          <h2
-            style={{
-              padding: "10px",
-              textAlign: "center",
-              marginBottom: "20px",
-              fontSize: "1.5em",
-              color: "white",
-            }}
-          >
-            Select Skill Levels
-          </h2>
-          {skills.map((skill, index) => (
-            <InputGroup
-              key={index}
-              className="mb-3"
-              style={{
-                width: "100%",
-                backgroundColor: "#fff",
-                border: "1px solid #ccc",
-                borderRadius: "6px",
-              }}
-            >
-              <InputGroup.Text
-                id={`basic-addon${index}`}
-                style={{ width: "70%", backgroundColor: "white" }}
-              >
-                {skill.name}
-              </InputGroup.Text>
-              <Form.Select
-                aria-label="Skill Level"
-                style={{ float: "right", border: "none" }}
-                value={skill.value}
-                onChange={(e) => {
-                  const newSkills = [...skills];
-                  newSkills[index].value = e.target.value;
-                  setSkills(newSkills);
-                }}
-              >
-                <option>Beginner</option>
-                <option>Advanced</option>
-                <option>Exposed</option>
-                <option>Adequate</option>
-                <option>Expert</option>
-              </Form.Select>
-            </InputGroup>
-          ))}
-        </div>
-      </div>
-
-      {/* Skill Add Modal Button */}
+      {/* Submit Button */}
       <Button
+        type="button"
         className="w-100 bg-transparent border-white"
-        onClick={handleShowModal}
+        onClick={handleDebouncedSubmit}
       >
-        Add Skill
+        Find Clubs
       </Button>
-
-      <AddSkillModal
-        showModal={showModal}
-        onHide={handleCloseModal}
-        onSubmit={addSkill}
-      />
-    </section>
+    </>
   );
 };
 

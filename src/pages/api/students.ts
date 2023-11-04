@@ -152,8 +152,6 @@ let studentList: StudentResponseData["studentList"] = [
       };
     };
 
-    console.log({ filters });
-
     if (filters?.filterStr?.length) {
       if (filters.filterType === "name") {
         studentList = studentList.filter((student) =>

@@ -12,7 +12,6 @@ export type StudentBoxProps = {
 };
 
 const StudentBox = ({ id, index, student }: StudentBoxProps) => {
-  console.log({ index, student, rating: getXpToRating(student.AILvl) });
   return (
     <Accordion className="mt-1" defaultActiveKey={id} id={id}>
       <Accordion.Item eventKey="0">
