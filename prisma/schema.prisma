@@ -1,0 +1,17 @@
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Professor {
+  id                  String  @id @default(auto()) @map("_id") @db.ObjectId
+  name                String
+  title               String
+  department          String
+  researchTitle       String?
+  researchDescription String?
+}
