@@ -1,9 +1,5 @@
-import { StudentResponseData } from "@src/pages/api/students";
-import Link from "next/link";
 import React from "react";
 import { Accordion } from "react-bootstrap";
-import { StarRating } from "../StarRating";
-import { getXpToRating } from "@src/utils/helpers";
 import { Professor as ProfessorSchema } from "@prisma/client";
 
 export type ProfessorBoxProps = {
