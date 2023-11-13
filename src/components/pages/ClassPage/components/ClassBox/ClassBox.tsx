@@ -1,18 +1,14 @@
-import { StudentResponseData } from "@src/pages/api/students";
-import Link from "next/link";
 import React from "react";
 import { Accordion } from "react-bootstrap";
-import { StarRating } from "../StarRating";
-import { getXpToRating } from "@src/utils/helpers";
-import { Professor as ProfessorSchema } from "@prisma/client";
+import { Class as ClassSchema } from "@prisma/client";
 
-export type ProfessorBoxProps = {
+export type ClassBoxProps = {
   id: string;
   index: number;
-  professor: ProfessorSchema;
+  _class: ClassSchema;
 };
 
-const ProfessorBox = ({ id, index, professor }: ProfessorBoxProps) => {
+const ClassBox = ({ id, index, _class }: ClassBoxProps) => {
   return (
     <Accordion className="mt-1" defaultActiveKey={id} id={id}>
       <Accordion.Item eventKey="0">
@@ -26,7 +22,7 @@ const ProfessorBox = ({ id, index, professor }: ProfessorBoxProps) => {
             }}
           >
             <div className="w-75">
-              <p>{professor.name}</p>
+              <p>{_class.className}</p>
               <p
                 style={{
                   fontSize: "0.8em",
@@ -34,7 +30,7 @@ const ProfessorBox = ({ id, index, professor }: ProfessorBoxProps) => {
                   color: "#666",
                 }}
               >
-                {professor.title}
+                {_class.className}
               </p>
             </div>
             <span
@@ -52,15 +48,15 @@ const ProfessorBox = ({ id, index, professor }: ProfessorBoxProps) => {
         <Accordion.Body>
           <blockquote className="mb-0">
             <div className="d-flex gap-2">
-              <b>Title:</b>
-              <p>{professor.researchTitle}</p>
+              <b>Professor Name:</b>
+              <p>{_class.professorName}</p>
             </div>
-            <b>Research Description:</b>
-            <p>{professor.researchDescription}</p>
-            {professor.prompt && (
+            <b>Class Description:</b>
+            <p>{_class.classExplanation}</p>
+            {_class.prompt && (
               <>
                 <b>Why you fit:</b>
-                <p>{professor.prompt}</p>
+                <p>{_class.prompt}</p>
               </>
             )}
           </blockquote>
@@ -70,4 +66,4 @@ const ProfessorBox = ({ id, index, professor }: ProfessorBoxProps) => {
   );
 };
 
-export default ProfessorBox;
+export default ClassBox;

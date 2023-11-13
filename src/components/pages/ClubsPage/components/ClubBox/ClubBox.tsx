@@ -1,18 +1,14 @@
-import { StudentResponseData } from "@src/pages/api/students";
-import Link from "next/link";
 import React from "react";
 import { Accordion } from "react-bootstrap";
-import { StarRating } from "../StarRating";
-import { getXpToRating } from "@src/utils/helpers";
-import { Professor as ProfessorSchema } from "@prisma/client";
+import { Club as ClubSchema } from "@prisma/client";
 
-export type ProfessorBoxProps = {
+export type ClubBoxProps = {
   id: string;
   index: number;
-  professor: ProfessorSchema;
+  club: ClubSchema;
 };
 
-const ProfessorBox = ({ id, index, professor }: ProfessorBoxProps) => {
+const ClubBox = ({ id, index, club }: ClubBoxProps) => {
   return (
     <Accordion className="mt-1" defaultActiveKey={id} id={id}>
       <Accordion.Item eventKey="0">
@@ -26,16 +22,7 @@ const ProfessorBox = ({ id, index, professor }: ProfessorBoxProps) => {
             }}
           >
             <div className="w-75">
-              <p>{professor.name}</p>
-              <p
-                style={{
-                  fontSize: "0.8em",
-                  marginTop: "5px",
-                  color: "#666",
-                }}
-              >
-                {professor.title}
-              </p>
+              <p>{club.name}</p>
             </div>
             <span
               style={{
@@ -51,16 +38,12 @@ const ProfessorBox = ({ id, index, professor }: ProfessorBoxProps) => {
         </Accordion.Header>
         <Accordion.Body>
           <blockquote className="mb-0">
-            <div className="d-flex gap-2">
-              <b>Title:</b>
-              <p>{professor.researchTitle}</p>
-            </div>
-            <b>Research Description:</b>
-            <p>{professor.researchDescription}</p>
-            {professor.prompt && (
+            <b>Club Description:</b>
+            <p>{club.explanation}</p>
+            {club.prompt && (
               <>
                 <b>Why you fit:</b>
-                <p>{professor.prompt}</p>
+                <p>{club.prompt}</p>
               </>
             )}
           </blockquote>
@@ -70,4 +53,4 @@ const ProfessorBox = ({ id, index, professor }: ProfessorBoxProps) => {
   );
 };
 
-export default ProfessorBox;
+export default ClubBox;

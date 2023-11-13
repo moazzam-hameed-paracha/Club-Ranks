@@ -2,25 +2,21 @@ import React, { useCallback, useState } from "react";
 import { Form, Button, Accordion } from "react-bootstrap";
 import styles from "./styles.module.scss";
 import { debounce } from "lodash";
-import { Professor as ProfessorSchema } from "@prisma/client";
+import { Club as ClubSchema } from "@prisma/client";
 
 type AddSkillSectionProps = {
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  setProfessors: React.Dispatch<React.SetStateAction<ProfessorSchema[]>>;
+  setClubs: React.Dispatch<React.SetStateAction<ClubSchema[]>>;
 };
 
-const AddSkillSection = ({
-  setIsLoading,
-  setProfessors,
-}: AddSkillSectionProps) => {
+const AddSkillSection = ({ setIsLoading, setClubs }: AddSkillSectionProps) => {
   const [resume, setResume] = useState<string>("");
   const [disabled, setDisabled] = useState<boolean>(false);
 
   const handleDebouncedSubmit = useCallback(
     debounce(() => {
-      setDisabled(true);
       setIsLoading(true);
-      fetch("/api/professors", {
+      fetch("/api/clubs", {
         method: "POST",
         body: JSON.stringify({
           resume,
@@ -28,7 +24,7 @@ const AddSkillSection = ({
       })
         .then((res) => res.json())
         .then((data) => {
-          setProfessors(data.professors);
+          setClubs(data.clubs);
         })
         .catch(() => alert("An error occurred. Please try again."))
         .finally(() => {
@@ -63,7 +59,7 @@ const AddSkillSection = ({
         onClick={handleDebouncedSubmit}
         disabled={disabled}
       >
-        Recommend Professors
+        Recommend Clubs
       </Button>
     </>
   );

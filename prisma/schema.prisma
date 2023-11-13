@@ -14,4 +14,27 @@ model Professor {
   department          String
   researchTitle       String?
   researchDescription String?
+  similarity          Int?
+  prompt              String?
+  embedding           Json[]
+}
+
+model Class {
+  id               String  @id @default(auto()) @map("_id") @db.ObjectId
+  className        String
+  professorName    String
+  classCode        String
+  classExplanation String
+  embedding        Json[]
+  similarity       Int?
+  prompt           String?
+}
+
+model Club {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  explanation String
+  embedding   Json[]
+  similarity  Int?
+  prompt      String?
 }

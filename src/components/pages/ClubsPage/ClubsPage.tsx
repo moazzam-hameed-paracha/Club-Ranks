@@ -1,22 +1,22 @@
 import { CustomHeader } from "@src/components/common";
 import React from "react";
-import { AddSkillSection, ProfessorRanksList } from "./components";
-import { Professor as ProfessorSchema } from "@prisma/client";
+import { AddSkillSection, ClubRanksList } from "./components";
+import { Club as ClubSchema } from "@prisma/client";
 
 const MainPage = () => {
-  const [professors, setProfessors] = React.useState([] as ProfessorSchema[]);
+  const [clubs, setClubs] = React.useState([] as ClubSchema[]);
   const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
-    const fetchProfessors = async () => {
-      const response = await fetch("/api/professors");
-      const professors = (await response.json())
-        .professors as ProfessorSchema[];
+    const fetchClubs = async () => {
+      const response = await fetch("/api/clubs");
+      const clubs = (await response.json())
+        .clubs as ClubSchema[];
 
       setIsLoading(false);
-      setProfessors(professors);
+      setClubs(clubs);
     };
-    fetchProfessors();
+    fetchClubs();
   }, []);
 
   return (
@@ -30,14 +30,14 @@ const MainPage = () => {
         >
           <AddSkillSection
             setIsLoading={setIsLoading}
-            setProfessors={setProfessors}
+            setClubs={setClubs}
           />
         </div>
         <div className="w-75">
-          <h2 className="m-3 text-center text-white">Professors List</h2>
+          <h2 className="m-3 text-center text-white">Clubs List</h2>
 
           <hr className="mx-3" />
-          <ProfessorRanksList professors={professors} isLoading={isLoading} />
+          <ClubRanksList clubs={clubs} isLoading={isLoading} />
         </div>
       </section>
     </>

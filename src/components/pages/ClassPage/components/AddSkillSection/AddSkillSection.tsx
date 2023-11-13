@@ -2,25 +2,24 @@ import React, { useCallback, useState } from "react";
 import { Form, Button, Accordion } from "react-bootstrap";
 import styles from "./styles.module.scss";
 import { debounce } from "lodash";
-import { Professor as ProfessorSchema } from "@prisma/client";
+import { Class as ClassSchema } from "@prisma/client";
 
 type AddSkillSectionProps = {
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  setProfessors: React.Dispatch<React.SetStateAction<ProfessorSchema[]>>;
+  setClasses: React.Dispatch<React.SetStateAction<ClassSchema[]>>;
 };
 
 const AddSkillSection = ({
   setIsLoading,
-  setProfessors,
+  setClasses,
 }: AddSkillSectionProps) => {
   const [resume, setResume] = useState<string>("");
   const [disabled, setDisabled] = useState<boolean>(false);
 
   const handleDebouncedSubmit = useCallback(
     debounce(() => {
-      setDisabled(true);
       setIsLoading(true);
-      fetch("/api/professors", {
+      fetch("/api/classes", {
         method: "POST",
         body: JSON.stringify({
           resume,
@@ -28,7 +27,7 @@ const AddSkillSection = ({
       })
         .then((res) => res.json())
         .then((data) => {
-          setProfessors(data.professors);
+          setClasses(data.classes);
         })
         .catch(() => alert("An error occurred. Please try again."))
         .finally(() => {
@@ -63,7 +62,7 @@ const AddSkillSection = ({
         onClick={handleDebouncedSubmit}
         disabled={disabled}
       >
-        Recommend Professors
+        Recommend Classes
       </Button>
     </>
   );

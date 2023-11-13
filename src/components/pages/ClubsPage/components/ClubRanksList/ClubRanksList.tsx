@@ -1,24 +1,21 @@
-import { ProfessorBox } from "@src/components/common";
 import React from "react";
-import { Professor as ProfessorSchema } from "@prisma/client";
+import { Club as ClubSchema } from "@prisma/client";
 import { Spinner } from "react-bootstrap";
+import { ClubBox } from "../ClubBox";
 
-type ProfessorRanksListProps = {
+type ClubRanksListProps = {
   isLoading: boolean;
-  professors: ProfessorSchema[];
+  clubs: ClubSchema[];
 };
 
-const ProfessorRanksList = ({
-  professors,
-  isLoading,
-}: ProfessorRanksListProps) => {
+const ClubRanksList = ({ clubs, isLoading }: ClubRanksListProps) => {
   if (isLoading) {
     return (
       <div className="h-100 d-flex justify-content-center align-items-center flex-column">
         <Spinner className="mb-2" animation="grow" role="status">
           <span className="visually-hidden">Loading...</span>
         </Spinner>
-        <p>Loading Professors...</p>
+        <p>Loading Clubs...</p>
         <p>It might take a few seconds</p>
       </div>
     );
@@ -26,13 +23,13 @@ const ProfessorRanksList = ({
 
   return (
     <>
-      {professors?.map((professor, index) => {
+      {clubs?.map((club, index) => {
         return (
-          <ProfessorBox
-            key={professor.id}
+          <ClubBox
+            key={club.id}
             index={index}
-            id={`professor${index + 1}`}
-            professor={professor}
+            id={`club${index + 1}`}
+            club={club}
           />
         );
       })}
@@ -40,4 +37,4 @@ const ProfessorRanksList = ({
   );
 };
 
-export default ProfessorRanksList;
+export default ClubRanksList;

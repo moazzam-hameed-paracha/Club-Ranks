@@ -1,4 +1,4 @@
-import { PrismaClient, Professor as ProfessorType } from "@prisma/client";
+import { PrismaClient, Club as ClubType } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 import {
   cosineSimilarity,
@@ -12,34 +12,31 @@ const openai = new OpenAI({
   apiKey: "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",
 });
 
-export type ProfessorGetRes = {
-  professors: Omit<ProfessorType, "embedding">[];
+export type ClubGetRes = {
+  clubs: Omit<ClubType, "embedding">[];
 };
 
-export type ProfessorPostReq = ProfessorGetRes;
+export type ClubPostReq = ClubGetRes;
 
 export const prisma = new PrismaClient();
 
 export default async (
   req: NextApiRequest,
-  res: NextApiResponse<ProfessorGetRes | ProfessorPostReq | { error: unknown }>
+  res: NextApiResponse<ClubGetRes | ClubPostReq | { error: unknown }>
 ) => {
   if (req.method === "GET") {
     try {
-      const professors = await prisma.professor.findMany({
+      const clubs = await prisma.club.findMany({
         select: {
-          department: true,
           id: true,
           name: true,
-          researchDescription: true,
-          researchTitle: true,
-          title: true,
-          similarity: true,
+          explanation: true,
           prompt: true,
+          similarity: true,
         },
       });
 
-      res.json({ professors });
+      res.json({ clubs });
     } catch (error) {
       return res.status(500).json({ error });
     }
@@ -48,37 +45,35 @@ export default async (
     const { resume } = JSON.parse(req.body);
 
     const resumeEmbeddings = await getEmbeddings(resume, openai);
-    const professors = (await prisma.professor.findMany())
-      .map((professor) => {
+    const clubs = (await prisma.club.findMany())
+      .map((club) => {
         const similarity = cosineSimilarity(
-          professor.embedding as number[],
+          club.embedding as number[],
           resumeEmbeddings.data[0].embedding
         );
 
         return {
-          ...professor,
+          ...club,
           similarity,
         };
       })
       .sort((a, b) => b.similarity - a.similarity);
 
     const prompt = await getGPTPrompt(
-      professors.map((professor) => ({
-        name: professor.name,
-        description: professor.researchDescription || "",
+      clubs.map((club) => ({
+        name: club.name,
+        description: club.explanation || "",
       })),
       resume,
-      "professor",
+      "club",
       openai
     );
 
-    const finalData = professors
-      .slice(0, prompt.length)
-      .map((professor, index) => ({
-        ...omit(professor, ["embedding"]),
-        prompt: prompt[index].content,
-      }));
+    const finalData = clubs.slice(0, prompt.length).map((club, index) => ({
+      ...omit(club, ["embedding"]),
+      prompt: prompt[index].content,
+    }));
 
-    return res.json({ professors: finalData });
+    return res.json({ clubs: finalData });
   }
 };
