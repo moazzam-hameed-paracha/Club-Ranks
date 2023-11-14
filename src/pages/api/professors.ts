@@ -9,7 +9,7 @@ import OpenAI from "openai";
 import { omit } from "lodash";
 
 const openai = new OpenAI({
-  apiKey: "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",
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
 export type ProfessorGetRes = {

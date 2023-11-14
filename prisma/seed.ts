@@ -5,7 +5,7 @@ import { getEmbeddings } from "@src/utils/helpers";
 import OpenAI from "openai";
 
 const openai = new OpenAI({
-  apiKey: "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",
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
 const prisma = new PrismaClient();
