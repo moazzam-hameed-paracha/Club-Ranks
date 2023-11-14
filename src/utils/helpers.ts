@@ -128,7 +128,11 @@ export const getGPTPrompt = async (
     max_tokens: 500,
     temperature: 0.7,
   });
-  
+
+  console.log("------------------------");
+  console.log(response.choices[0].text);
+  console.log("------------------------");
+
   return JSON.parse(
     response.choices[0].text.split("Answer:")[1]
   ) as GPTPromptType;
