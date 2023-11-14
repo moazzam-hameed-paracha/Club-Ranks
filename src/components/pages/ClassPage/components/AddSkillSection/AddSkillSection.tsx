@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import { Form, Button, Accordion } from "react-bootstrap";
 import styles from "./styles.module.scss";
 import { debounce } from "lodash";
@@ -16,28 +16,24 @@ const AddSkillSection = ({
   const [resume, setResume] = useState<string>("");
   const [disabled, setDisabled] = useState<boolean>(false);
 
-  const handleDebouncedSubmit = useCallback(
-    () =>
-      debounce(() => {
-        setIsLoading(true);
-        fetch("/api/classes", {
-          method: "POST",
-          body: JSON.stringify({
-            resume,
-          }),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            setClasses(data.classes);
-          })
-          .catch(() => alert("An error occurred. Please try again."))
-          .finally(() => {
-            setDisabled(false);
-            setIsLoading(false);
-          });
-      }, 1000),
-    [resume, setClasses, setIsLoading]
-  );
+  const handleDebouncedSubmit = debounce(() => {
+    setIsLoading(true);
+    fetch("/api/classes", {
+      method: "POST",
+      body: JSON.stringify({
+        resume,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setClasses(data.classes);
+      })
+      .catch(() => alert("An error occurred. Please try again."))
+      .finally(() => {
+        setDisabled(false);
+        setIsLoading(false);
+      });
+  }, 1000);
 
   return (
     <>

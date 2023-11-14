@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import { Form, Button, Accordion } from "react-bootstrap";
 import styles from "./styles.module.scss";
 import { debounce } from "lodash";
@@ -13,28 +13,24 @@ const AddSkillSection = ({ setIsLoading, setClubs }: AddSkillSectionProps) => {
   const [resume, setResume] = useState<string>("");
   const [disabled, setDisabled] = useState<boolean>(false);
 
-  const handleDebouncedSubmit = useCallback(
-    () =>
-      debounce(() => {
-        setIsLoading(true);
-        fetch("/api/clubs", {
-          method: "POST",
-          body: JSON.stringify({
-            resume,
-          }),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            setClubs(data.clubs);
-          })
-          .catch(() => alert("An error occurred. Please try again."))
-          .finally(() => {
-            setDisabled(false);
-            setIsLoading(false);
-          });
-      }, 1000),
-    [resume, setClubs, setIsLoading]
-  );
+  const handleDebouncedSubmit = debounce(() => {
+    setIsLoading(true);
+    fetch("/api/clubs", {
+      method: "POST",
+      body: JSON.stringify({
+        resume,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setClubs(data.clubs);
+      })
+      .catch(() => alert("An error occurred. Please try again."))
+      .finally(() => {
+        setDisabled(false);
+        setIsLoading(false);
+      });
+  }, 1000);
 
   return (
     <>
