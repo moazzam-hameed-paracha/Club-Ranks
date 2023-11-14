@@ -17,25 +17,26 @@ const AddSkillSection = ({
   const [disabled, setDisabled] = useState<boolean>(false);
 
   const handleDebouncedSubmit = useCallback(
-    debounce(() => {
-      setIsLoading(true);
-      fetch("/api/classes", {
-        method: "POST",
-        body: JSON.stringify({
-          resume,
-        }),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          setClasses(data.classes);
+    () =>
+      debounce(() => {
+        setIsLoading(true);
+        fetch("/api/classes", {
+          method: "POST",
+          body: JSON.stringify({
+            resume,
+          }),
         })
-        .catch(() => alert("An error occurred. Please try again."))
-        .finally(() => {
-          setDisabled(false);
-          setIsLoading(false);
-        });
-    }, 1000),
-    [resume]
+          .then((res) => res.json())
+          .then((data) => {
+            setClasses(data.classes);
+          })
+          .catch(() => alert("An error occurred. Please try again."))
+          .finally(() => {
+            setDisabled(false);
+            setIsLoading(false);
+          });
+      }, 1000),
+    [resume, setClasses, setIsLoading]
   );
 
   return (
