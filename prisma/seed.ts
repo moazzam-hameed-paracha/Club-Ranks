@@ -1,8 +1,9 @@
 import { PrismaClient } from "@prisma/client";
-import fs from "fs";
-import csv from "csv-parser";
 import { getEmbeddings } from "@src/utils/helpers";
 import OpenAI from "openai";
+import professorData from "./data - professor.json";
+import classData from "./data - class.json";
+import clubData from "./data - club.json";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -11,59 +12,60 @@ const openai = new OpenAI({
 const prisma = new PrismaClient();
 
 async function main() {
-  const csvPaths = [
-    // "./prisma/data - club.csv",
-    // "./prisma/data - class.csv",
-    "./prisma/data - professor.csv",
+  const jsonData = [
+    {
+      data: professorData,
+      name: "professor",
+    },
+    {
+      data: classData,
+      name: "class",
+    },
+    {
+      data: clubData,
+      name: "club",
+    },
   ];
 
-  csvPaths.forEach((filePath) => {
-    // get name from file path which comes after -
-    const name = filePath.split("-")[1].split(".")[0].trim() as
-      | "professor"
-      | "class"
-      | "club";
+  await jsonData.forEach(({ data, name }) => {
+    const embeddedData = data.map(async (_row) => {
+      let embedding: number[] = [];
 
-    fs.createReadStream(filePath)
-      .pipe(csv())
-      .on("data", async (data) => {
-        // Process each row of the CSV file here
-        let embedding: number[] = [];
-        if (name === "professor") {
-          embedding = (
-            await getEmbeddings(
-              data.name + " " + data.researchDescription,
-              openai
-            )
-          ).data[0].embedding;
-        } else if (name === "class") {
-          embedding = (
-            await getEmbeddings(
-              data.className + " " + data.classExplanation,
-              openai
-            )
-          ).data[0].embedding;
-        } else if (name === "club") {
-          embedding = (
-            await getEmbeddings(data.name + " " + data.explanation, openai)
-          ).data[0].embedding;
-        }
+      if (name === "professor") {
+        const row = _row as (typeof professorData)[0];
+        embedding = (
+          await getEmbeddings(row.name + " " + row.researchDescription, openai)
+        ).data[0].embedding;
+      } else if (name === "class") {
+        const row = _row as (typeof classData)[0];
+        embedding = (
+          await getEmbeddings(
+            row.className + " " + row.classExplanation,
+            openai
+          )
+        ).data[0].embedding;
+      } else if (name === "club") {
+        const row = _row as (typeof clubData)[0];
+        embedding = (
+          await getEmbeddings(row.name + " " + row.explanation, openai)
+        ).data[0].embedding;
+      }
 
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        await prisma[name].create({
-          data: {
-            ...data,
-            embedding,
-          },
-        });
+      return {
+        ..._row,
+        embedding,
+      };
+    });
+
+    Promise.all(embeddedData).then(async (embeddedData) => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      await prisma[name].createMany({
+        data: embeddedData,
       });
+    });
   });
 }
-
-console.log(
-  "Seeding data. This may take a few minutes depending on your internet speed."
-);
 
 main()
   .then(async () => {
