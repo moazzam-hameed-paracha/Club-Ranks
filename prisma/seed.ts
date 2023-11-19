@@ -32,7 +32,7 @@ async function main() {
         if (name === "professor") {
           embedding = (
             await getEmbeddings(
-              data.className + " " + data.classExplanation,
+              data.name + " " + data.researchDescription,
               openai
             )
           ).data[0].embedding;

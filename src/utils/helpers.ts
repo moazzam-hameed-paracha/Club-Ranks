@@ -77,6 +77,7 @@ export type GPTPromptType = Array<{
   name: string;
 }>;
 
+
 export const getGPTPrompt = async (
   data: Array<{ name: string; description: string }>,
   resumeTxt: string,
@@ -118,14 +119,14 @@ export const getGPTPrompt = async (
   Give the answer as a JSON array of objects, each object should have the following format:
   {
     "name": "<Name of the ${type}>",
-    "content": "<Brief explanation in 1-2 sentences>"
+    "content": "<Brief explanation in 2-3 sentences>"
   }
   `;
 
   const response = await openai.completions.create({
     prompt,
     model: "text-davinci-003",
-    max_tokens: 500,
+    max_tokens: 800,
     temperature: 0.7,
   });
 

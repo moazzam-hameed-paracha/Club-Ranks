@@ -13,7 +13,7 @@ const AddSkillSection = ({ setIsLoading, setClubs }: AddSkillSectionProps) => {
   const [resume, setResume] = useState<string>("");
   const [disabled, setDisabled] = useState<boolean>(false);
 
-  const handleDebouncedSubmit = debounce(() => {
+  const handleDebouncedSubmit = debounce(() => { 
     setIsLoading(true);
     fetch("/api/clubs", {
       method: "POST",
