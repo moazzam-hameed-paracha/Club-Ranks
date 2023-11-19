@@ -2,6 +2,7 @@ import { ProfessorBox } from "@src/components/common";
 import React from "react";
 import { Professor as ProfessorSchema } from "@prisma/client";
 import { Spinner } from "react-bootstrap";
+import Image from "next/image";
 
 type ProfessorRanksListProps = {
   isLoading: boolean;
@@ -36,6 +37,22 @@ const ProfessorRanksList = ({
           />
         );
       })}
+
+      {professors?.[0].prompt?.length && (
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: "column",
+            gap: "1rem",
+            marginTop: "2rem",
+          }}
+        >
+          <Image src="/images/lock.svg" alt="lock" width={50} height={50} />
+          <h4>To see more results, please sign up.</h4>
+        </div>
+      )}
     </>
   );
 };

@@ -1,6 +1,7 @@
 import React from "react";
 import { Accordion } from "react-bootstrap";
 import { Professor as ProfessorSchema } from "@prisma/client";
+import { generateMatchIndex } from "@src/utils/helpers";
 
 export type ProfessorBoxProps = {
   id: string;
@@ -41,7 +42,7 @@ const ProfessorBox = ({ id, index, professor }: ProfessorBoxProps) => {
                 gap: "10px",
               }}
             >
-              Match Index: <b>{Math.floor(Math.random() * 10) + index * 10}</b>
+              Match Index: <b>{generateMatchIndex(index)}</b>
             </span>
           </div>
         </Accordion.Header>

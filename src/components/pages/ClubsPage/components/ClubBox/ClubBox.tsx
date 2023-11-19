@@ -1,6 +1,7 @@
 import React from "react";
 import { Accordion } from "react-bootstrap";
 import { Club as ClubSchema } from "@prisma/client";
+import { generateMatchIndex } from "@src/utils/helpers";
 
 export type ClubBoxProps = {
   id: string;
@@ -32,7 +33,7 @@ const ClubBox = ({ id, index, club }: ClubBoxProps) => {
                 gap: "10px",
               }}
             >
-              Match Index: <b>{Math.floor(Math.random() * 10) + index * 10}</b>
+              Match Index: <b>{generateMatchIndex(index)}</b>
             </span>
           </div>
         </Accordion.Header>

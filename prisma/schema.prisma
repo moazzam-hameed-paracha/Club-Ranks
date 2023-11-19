@@ -38,3 +38,11 @@ model Club {
   similarity  Int?
   prompt      String?
 }
+
+model Analytics {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  type      String
+  resume    String
+  results   Json[]
+  timestamp DateTime @default(now())
+}

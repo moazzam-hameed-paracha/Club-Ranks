@@ -77,7 +77,6 @@ export type GPTPromptType = Array<{
   name: string;
 }>;
 
-
 export const getGPTPrompt = async (
   data: Array<{ name: string; description: string }>,
   resumeTxt: string,
@@ -137,4 +136,10 @@ export const getGPTPrompt = async (
   return JSON.parse(
     response.choices[0].text.split("Answer:")[1]
   ) as GPTPromptType;
+};
+
+export const generateMatchIndex = (index: number) => {
+  const idx = index > 9 ? 9 : index;
+
+  return Math.floor(Math.random() * 10) + 90 - 10 * idx;
 };

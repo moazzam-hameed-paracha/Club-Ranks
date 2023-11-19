@@ -79,6 +79,14 @@ export default async (
         prompt: prompt[index].content,
       }));
 
+    await prisma.analytics.create({
+      data: {
+        resume,
+        type: "professor",
+        results: finalData,
+      },
+    });
+
     return res.json({ professors: finalData });
   }
 };

@@ -74,6 +74,14 @@ export default async (
       prompt: prompt[index].content,
     }));
 
+    await prisma.analytics.create({
+      data: {
+        resume,
+        type: "club",
+        results: finalData,
+      },
+    });
+
     return res.json({ clubs: finalData });
   }
 };
