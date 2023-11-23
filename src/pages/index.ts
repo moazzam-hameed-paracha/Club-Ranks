@@ -1,3 +1,3 @@
-import { MainPage } from "@src/components/pages";
+import { DashboardPage } from "@src/components/pages";
 
-export default MainPage;
+export default DashboardPage;

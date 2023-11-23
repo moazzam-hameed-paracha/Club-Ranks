@@ -3,7 +3,7 @@ import React from "react";
 import { AddSkillSection, ProfessorRanksList } from "./components";
 import { Professor as ProfessorSchema } from "@prisma/client";
 
-const MainPage = () => {
+const ProfessorsPage = () => {
   const [professors, setProfessors] = React.useState([] as ProfessorSchema[]);
   const [isLoading, setIsLoading] = React.useState(true);
 
@@ -44,4 +44,4 @@ const MainPage = () => {
   );
 };
 
-export default MainPage;
+export default ProfessorsPage;
