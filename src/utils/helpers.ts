@@ -133,9 +133,13 @@ export const getGPTPrompt = async (
   console.log(response.choices[0].text);
   console.log("------------------------");
 
-  return JSON.parse(
-    response.choices[0].text.split("Answer:")[1]
-  ) as GPTPromptType;
+  const splitData = response.choices[0].text.split("Answer:");
+
+  if (splitData.length < 1) {
+    return JSON.parse(splitData[1]) as GPTPromptType;
+  }
+
+  return JSON.parse(splitData[0]) as GPTPromptType;
 };
 
 export const generateMatchIndex = (index: number) => {
