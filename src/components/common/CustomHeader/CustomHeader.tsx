@@ -7,15 +7,19 @@ function Header() {
   return (
     <nav className={styles.nav}>
       <Link href="/" className={styles.nav_title}>
-        <Image src="/images/logo.png" alt="" width={50} height={50} />
-        <p>Professor Ranks</p>
+        <Image src="/images/logo.png" alt="" width={60} height={45} />
       </Link>
-      <Link href="/clubs" className={styles.nav_title}>
-        <p>Club Ranks</p>
-      </Link>
-      <Link href="/classes" className={styles.nav_title}>
-        <p>Class Ranks</p>
-      </Link>
+      <div>
+        <Link href="/professors">
+          <p>Professor Ranks</p>
+        </Link>
+        <Link href="/clubs">
+          <p>Club Ranks</p>
+        </Link>
+        <Link href="/classes">
+          <p>Class Ranks</p>
+        </Link>
+      </div>
     </nav>
   );
 }

@@ -1,0 +1,29 @@
+.cardOuter {
+  background-color: white;
+  height: 200px;
+  border-radius: 8px;
+  border: 1px solid white;
+  padding: 10px;
+  margin-top: 50px;
+  background: linear-gradient(
+    to bottom right,
+    rgba(109, 207, 246, 1),
+    rgb(129, 240, 117)
+  );
+
+  .cardInner {
+    background-color: white;
+    height: 100%;
+    border-radius: 8px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+
+    button {
+      margin-top: auto;
+      width: 50%;
+    }
+  }
+}
