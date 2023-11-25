@@ -2,6 +2,7 @@ import { CustomHeader } from "@src/components/common";
 import React from "react";
 import { AddSkillSection, ClassRanksList } from "./components";
 import { Class as ClassSchema } from "@prisma/client";
+import { APIS } from "@src/constants/api";
 
 const ClassPage = () => {
   const [classes, setClasses] = React.useState([] as ClassSchema[]);
@@ -9,7 +10,7 @@ const ClassPage = () => {
 
   React.useEffect(() => {
     const fetchClasses = async () => {
-      const response = await fetch("/api/classes");
+      const response = await fetch(APIS.CLASSES);
       const classes = (await response.json())
         .classes as ClassSchema[];
 

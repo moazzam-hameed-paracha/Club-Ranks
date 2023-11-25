@@ -2,6 +2,7 @@ import { CustomHeader } from "@src/components/common";
 import React from "react";
 import { AddSkillSection, ClubRanksList } from "./components";
 import { Club as ClubSchema } from "@prisma/client";
+import { APIS } from "@src/constants/api";
 
 const MainPage = () => {
   const [clubs, setClubs] = React.useState([] as ClubSchema[]);
@@ -9,7 +10,7 @@ const MainPage = () => {
 
   React.useEffect(() => {
     const fetchClubs = async () => {
-      const response = await fetch("/api/clubs");
+      const response = await fetch(APIS.CLUBS);
       const clubs = (await response.json())
         .clubs as ClubSchema[];
 

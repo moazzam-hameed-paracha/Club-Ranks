@@ -3,6 +3,7 @@ import { Form, Button, Accordion } from "react-bootstrap";
 import styles from "./styles.module.scss";
 import { debounce } from "lodash";
 import { Club as ClubSchema } from "@prisma/client";
+import { APIS } from "@src/constants/api";
 
 type AddSkillSectionProps = {
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
@@ -22,7 +23,7 @@ const AddSkillSection = ({ setIsLoading, setClubs }: AddSkillSectionProps) => {
 
     setDisabled(true);
     setIsLoading(true);
-    fetch("/api/clubs", {
+    fetch(APIS.CLUBS, {
       method: "POST",
       body: JSON.stringify({
         resume,

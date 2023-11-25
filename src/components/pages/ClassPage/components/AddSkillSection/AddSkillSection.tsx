@@ -3,6 +3,7 @@ import { Form, Button, Accordion } from "react-bootstrap";
 import styles from "./styles.module.scss";
 import { debounce } from "lodash";
 import { Class as ClassSchema } from "@prisma/client";
+import { APIS } from "@src/constants/api";
 
 type AddSkillSectionProps = {
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
@@ -25,7 +26,7 @@ const AddSkillSection = ({
 
     setDisabled(true);
     setIsLoading(true);
-    fetch("/api/classes", {
+    fetch(APIS.CLASSES, {
       method: "POST",
       body: JSON.stringify({
         resume,

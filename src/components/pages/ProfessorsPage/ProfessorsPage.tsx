@@ -2,6 +2,7 @@ import { CustomHeader } from "@src/components/common";
 import React from "react";
 import { AddSkillSection, ProfessorRanksList } from "./components";
 import { Professor as ProfessorSchema } from "@prisma/client";
+import { APIS } from "@src/constants/api";
 
 const ProfessorsPage = () => {
   const [professors, setProfessors] = React.useState([] as ProfessorSchema[]);
@@ -9,7 +10,7 @@ const ProfessorsPage = () => {
 
   React.useEffect(() => {
     const fetchProfessors = async () => {
-      const response = await fetch("/api/professors");
+      const response = await fetch(APIS.PROFESSORS);
       const professors = (await response.json())
         .professors as ProfessorSchema[];
 

@@ -3,6 +3,7 @@ import { Form, Button } from "react-bootstrap";
 import styles from "./styles.module.scss";
 import { usePathname, useRouter } from "next/navigation";
 import { PAGES } from "@src/constants/pages";
+import { APIS } from "@src/constants/api";
 
 const SignUpPage: React.FC = () => {
   const router = useRouter();
@@ -20,14 +21,14 @@ const SignUpPage: React.FC = () => {
   } = {
     "/sign-in": {
       title: "Sign in",
-      api: "/api/auth/sign-in",
+      api: APIS.SIGN_IN,
       txt: "Not signed up yet?",
       linkTxt: "Sign up",
       link: PAGES.SIGN_UP,
     },
     "/sign-up": {
       title: "Sign up",
-      api: "/api/auth/sign-up",
+      api: APIS.SIGN_UP,
       txt: "Already signed up?",
       linkTxt: "Sign in",
       link: PAGES.SIGN_IN,
