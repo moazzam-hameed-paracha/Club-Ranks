@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Spinner } from "react-bootstrap";
 import styles from "./styles.module.scss";
 import { usePathname, useRouter } from "next/navigation";
 import { PAGES } from "@src/constants/pages";
@@ -7,6 +7,7 @@ import { APIS } from "@src/constants/api";
 
 const SignUpPage: React.FC = () => {
   const router = useRouter();
+  const [loading, setLoading] = React.useState(false);
 
   const pathname = usePathname();
 
@@ -46,12 +47,15 @@ const SignUpPage: React.FC = () => {
 
     if (!email || !password) return alert("Please fill out all fields");
 
+    setLoading(true);
     fetch(map[pathname].api, {
       method: "POST",
       body: JSON.stringify({ email, password }),
     })
-      .then((res) => res.json())
       .then((res) => {
+        setLoading(false);
+        return res.json();
+      }).then((res) => {
         if (res.error) {
           alert(res.error);
         } else {
@@ -61,6 +65,7 @@ const SignUpPage: React.FC = () => {
         }
       })
       .catch((err) => {
+        setLoading(false);
         console.log(err);
       });
   };
@@ -96,7 +101,7 @@ const SignUpPage: React.FC = () => {
             type="submit"
             className="w-100 mt-5 bg-transparent border-white"
           >
-            {map[pathname].title}
+            {!loading ? (map[pathname].title) : <Spinner animation="border" />}
           </Button>
         </Form>
 
