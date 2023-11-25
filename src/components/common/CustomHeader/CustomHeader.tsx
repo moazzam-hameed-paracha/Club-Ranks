@@ -3,7 +3,6 @@ import Image from "next/image";
 import styles from "./styles.module.scss";
 import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
 import { PAGES } from "@src/constants/pages";
-import {cookies} from "next/headers";
 
 function Header() {
   const [isLoggedIn, setLoggedIn] = React.useState(false);
