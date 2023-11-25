@@ -2,10 +2,11 @@ import { CustomHeader } from "@src/components/common";
 import React from "react";
 import styles from "./styles.module.scss";
 import { Button } from "react-bootstrap";
-// import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { PAGES } from "@src/constants/pages";
 
 const DashboardPage = () => {
-  // const { data: session } = useSession();
+  const router = useRouter();
 
   return (
     <>
@@ -32,7 +33,7 @@ const DashboardPage = () => {
 
               <Button
                 variant="outline-secondary"
-                //  onClick={() => signIn()}
+                onClick={() => router.push(PAGES.SIGN_UP)}
               >
                 SIGN UP!
               </Button>

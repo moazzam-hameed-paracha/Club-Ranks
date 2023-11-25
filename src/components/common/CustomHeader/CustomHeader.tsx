@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import styles from "./styles.module.scss";
 import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
+import { PAGES } from "@src/constants/pages";
 
 function Header() {
   return (
@@ -12,11 +13,13 @@ function Header() {
         </Navbar.Brand>
         <Nav className="">
           <NavDropdown title="Rank Lists" id="basic-nav-dropdown">
-            <NavDropdown.Item href="/professors">Professors</NavDropdown.Item>
+            <NavDropdown.Item href={PAGES.PROFESSORS}>
+              Professors
+            </NavDropdown.Item>
             <NavDropdown.Divider />
-            <NavDropdown.Item href="/classes">Classes</NavDropdown.Item>
+            <NavDropdown.Item href={PAGES.CLASS}>Classes</NavDropdown.Item>
             <NavDropdown.Divider />
-            <NavDropdown.Item href="/clubs">Clubs</NavDropdown.Item>
+            <NavDropdown.Item href={PAGES.CLUBS}>Clubs</NavDropdown.Item>
           </NavDropdown>
         </Nav>
       </Container>

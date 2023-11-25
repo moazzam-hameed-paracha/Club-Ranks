@@ -1,10 +1,28 @@
 import React from "react";
 import { Form, Button } from "react-bootstrap";
 import styles from "./styles.module.scss";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const SignUpPage: React.FC = () => {
   const router = useRouter();
+
+  const pathname = usePathname();
+
+  const map: {
+    [key: string]: {
+      title: string;
+      api: string;
+    };
+  } = {
+    "/sign-in": {
+      title: "Sign in",
+      api: "/api/auth/sign-in",
+    },
+    "/sign-up": {
+      title: "Sign up",
+      api: "/api/auth/sign-up",
+    },
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -17,11 +35,8 @@ const SignUpPage: React.FC = () => {
 
     if (!email || !password) return alert("Please fill out all fields");
 
-    fetch("/api/auth/sign-up", {
+    fetch(map[pathname].api, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
       body: JSON.stringify({ email, password }),
     })
       .then((res) => res.json())
@@ -30,9 +45,8 @@ const SignUpPage: React.FC = () => {
           alert(res.error);
         } else {
           alert("Success!");
+          router.push("/");
         }
-
-        router.push("/");
       })
       .catch((err) => {
         console.log(err);
@@ -42,7 +56,7 @@ const SignUpPage: React.FC = () => {
   return (
     <div className={styles.container}>
       <div className={styles.card}>
-        <h1 className="text-center mb-4 text-white">Sign up</h1>
+        <h1 className="text-center mb-4 text-white">{map[pathname].title}</h1>
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="formEmail">
             <Form.Label className="text-white mt-4">Email</Form.Label>
