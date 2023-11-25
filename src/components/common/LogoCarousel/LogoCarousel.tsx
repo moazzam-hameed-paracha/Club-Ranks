@@ -22,7 +22,7 @@ const LogoCarousel: React.FC<Props> = ({ images }) => {
         slidesPerView={images.length > 6 ? 6 : images.length}
         spaceBetween={10}
         autoplay={{
-          delay: 2500,
+          delay: 1500,
           disableOnInteraction: false,
         }}
         loop={true}
