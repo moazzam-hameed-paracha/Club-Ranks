@@ -1,4 +1,4 @@
-import { CustomHeader } from "@src/components/common";
+import { CustomHeader, LogoCarousel } from "@src/components/common";
 import React, { useEffect } from "react";
 import styles from "./styles.module.scss";
 import { Button } from "react-bootstrap";
@@ -7,7 +7,7 @@ import { PAGES } from "@src/constants/pages";
 
 const DashboardPage = () => {
   const router = useRouter();
-  const [isLoggedIn, setIsLoggedIn] = React.useState<boolean>(false);
+  const [isLoggedIn, setIsLoggedIn] = React.useState<boolean>(true);
 
   useEffect(() => {
     setIsLoggedIn(
@@ -19,9 +19,9 @@ const DashboardPage = () => {
     <>
       <CustomHeader />
       <section
-        className="p-3 "
+        className="p-3 d-flex flex-column justify-content-center align-items-center"
         style={{
-          height: "calc(100vh - 70px)",
+          height: "calc(100vh - 86px)",
         }}
       >
         <div className="w-50 mx-auto">
@@ -49,9 +49,47 @@ const DashboardPage = () => {
             </div>
           )}
         </div>
+        <div className="mt-auto mb-4">
+          <LogoCarousel images={IMAGES} />
+        </div>
       </section>
     </>
   );
 };
 
 export default DashboardPage;
+
+const IMAGES = [
+  {
+    src: "/images/universities/brown.png",
+    alt: "1",
+  },
+  {
+    src: "/images/universities/columbia.png",
+    alt: "1",
+  },
+  {
+    src: "/images/universities/cornell.png",
+    alt: "1",
+  },
+  {
+    src: "/images/universities/dartmouth.png",
+    alt: "1",
+  },
+  {
+    src: "/images/universities/harvard.png",
+    alt: "1",
+  },
+  {
+    src: "/images/universities/princeton.png",
+    alt: "1",
+  },
+  {
+    src: "/images/universities/upenn.png",
+    alt: "1",
+  },
+  {
+    src: "/images/universities/yale.png",
+    alt: "1",
+  },
+];
