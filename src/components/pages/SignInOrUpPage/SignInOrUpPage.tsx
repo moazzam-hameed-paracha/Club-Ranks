@@ -11,6 +11,17 @@ const SignUpPage: React.FC = () => {
 
   const pathname = usePathname();
 
+  React.useEffect(() => {
+    const isLoggedIn = Boolean(
+      JSON.parse(localStorage.getItem("loggedIn") || "false")
+    );
+
+    if (isLoggedIn) {
+      router.push(PAGES.DASHBOARD);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const map: {
     [key: string]: {
       title: string;
@@ -55,11 +66,11 @@ const SignUpPage: React.FC = () => {
       .then((res) => {
         setLoading(false);
         return res.json();
-      }).then((res) => {
+      })
+      .then((res) => {
         if (res.error) {
           alert(res.error);
         } else {
-          alert("Success!");
           localStorage.setItem("loggedIn", "true");
           router.push(PAGES.DASHBOARD);
         }
@@ -101,7 +112,7 @@ const SignUpPage: React.FC = () => {
             type="submit"
             className="w-100 mt-5 bg-transparent border-white"
           >
-            {!loading ? (map[pathname].title) : <Spinner animation="border" />}
+            {!loading ? map[pathname].title : <Spinner animation="border" />}
           </Button>
         </Form>
 
