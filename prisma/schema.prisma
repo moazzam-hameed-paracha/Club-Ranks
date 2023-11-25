@@ -45,13 +45,16 @@ model Analytics {
   type      String
   resume    String
   results   Json[]
+  userId    String?  @map("_userId") @db.ObjectId
+  user      User?    @relation(fields: [userId], references: [id])
   timestamp DateTime @default(now())
 }
 
 model User {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  email     String   @unique
+  id        String      @id @default(auto()) @map("_id") @db.ObjectId
+  email     String      @unique
   password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  Analytics Analytics[]
 }

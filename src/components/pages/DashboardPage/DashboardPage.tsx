@@ -1,21 +1,8 @@
 import { CustomHeader, LogoCarousel, DashboardCard } from "@src/components/common";
-import React, { useEffect } from "react";
-import styles from "./styles.module.scss";
-import { Button } from "react-bootstrap";
-import { useRouter } from "next/navigation";
-import { PAGES } from "@src/constants/pages";
+import React from "react";
 import { FaUsers, FaChalkboardTeacher, FaBookOpen } from "react-icons/fa";
 
 const DashboardPage = () => {
-  const router = useRouter();
-  const [isLoggedIn, setIsLoggedIn] = React.useState<boolean>(true);
-
-  useEffect(() => {
-    setIsLoggedIn(
-      Boolean(JSON.parse(localStorage.getItem("loggedIn") || "false"))
-    );
-  }, []);
-
   return (
     <>
       <CustomHeader />
@@ -46,7 +33,7 @@ const DashboardPage = () => {
             <DashboardCard title="Tailor Your Learning" subtitle="Select classes that will pave the path for your future career." icon={<FaBookOpen size={96} />}/>
           </div>
         </div>
-        <div className="container">
+        <div className="container mt-3">
           <h2 className="text-center text-white mt-4">
             Universities
           </h2>

@@ -3,6 +3,8 @@ import { Class as ClassSchema } from "@prisma/client";
 import { Spinner } from "react-bootstrap";
 import { ClassBox } from "../ClassBox";
 import Image from "next/image";
+import { PAGES } from "@src/constants/pages";
+import Link from "next/link";
 
 type ClassRanksListProps = {
   isLoading: boolean;
@@ -10,6 +12,14 @@ type ClassRanksListProps = {
 };
 
 const ClassRanksList = ({ classes, isLoading }: ClassRanksListProps) => {
+  const [isLoggedIn, setIsLoggedIn] = React.useState<boolean>(true);
+
+  React.useEffect(() => {
+    setIsLoggedIn(
+      Boolean(JSON.parse(localStorage.getItem("loggedIn") || "false"))
+    );
+  }, []);
+
   if (isLoading) {
     return (
       <div className="h-100 d-flex justify-content-center align-items-center flex-column">
@@ -35,7 +45,7 @@ const ClassRanksList = ({ classes, isLoading }: ClassRanksListProps) => {
         );
       })}
 
-      {classes?.[0].prompt?.length && (
+      {!isLoggedIn && (
         <div style={{
           display: "flex",
           alignItems: "center",
@@ -45,7 +55,11 @@ const ClassRanksList = ({ classes, isLoading }: ClassRanksListProps) => {
           marginTop: "2rem",
         }}>
           <Image src="/images/lock.svg" alt="lock" width={50} height={50}/>
-          <h4>To see more results, please sign up.</h4>
+          <h4>
+            To see more results, please{" "}
+            <Link href={PAGES.SIGN_UP}>sign up</Link> or{" "}
+            <Link href={PAGES.SIGN_IN}>sign in</Link>.
+          </h4>
         </div>
       )}
     </>

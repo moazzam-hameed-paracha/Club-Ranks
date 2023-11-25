@@ -147,3 +147,19 @@ export const generateMatchIndex = (index: number) => {
 
   return Math.floor(Math.random() * 10) + 90 - 10 * idx;
 };
+
+// export const getCookieValue = (cookies: string, key: string) => {
+//   // Split the cookie string into individual key-value pairs
+//   const cookieArray = cookies.split("; ");
+
+//   // Convert key-value pairs into an object
+//   const cookieObject = cookieArray.reduce((acc, cookie) => {
+//     const [key, value] = cookie.split("=");
+//     // eslint-disable-next-line @typescript-eslint/no-explicit-any
+//     acc[key as any] = value;
+//     return acc;
+//   }, {});
+
+//   // Access and use specific cookie values
+//   const userDataCookie = cookieObject[key as keyof typeof cookieObject];
+// };

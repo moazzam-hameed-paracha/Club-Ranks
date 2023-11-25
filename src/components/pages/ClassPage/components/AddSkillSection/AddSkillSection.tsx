@@ -30,6 +30,7 @@ const AddSkillSection = ({
       method: "POST",
       body: JSON.stringify({
         resume,
+        interests,
       }),
     })
       .then((res) => res.json())
@@ -71,7 +72,7 @@ const AddSkillSection = ({
 
   return (
     <>
-      <Accordion defaultActiveKey={"resume_desc"} id={"resume_desc"}>
+      <Accordion defaultActiveKey={"0"} id={"resume_desc"}>
         <Accordion.Item eventKey="0">
           <Accordion.Header>
             Paste your resume <span className={styles.required}>*</span>{" "}

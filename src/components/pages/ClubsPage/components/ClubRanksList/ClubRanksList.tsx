@@ -3,6 +3,8 @@ import { Club as ClubSchema } from "@prisma/client";
 import { Spinner } from "react-bootstrap";
 import { ClubBox } from "../ClubBox";
 import Image from "next/image";
+import { PAGES } from "@src/constants/pages";
+import Link from "next/link";
 
 type ClubRanksListProps = {
   isLoading: boolean;
@@ -10,6 +12,14 @@ type ClubRanksListProps = {
 };
 
 const ClubRanksList = ({ clubs, isLoading }: ClubRanksListProps) => {
+  const [isLoggedIn, setIsLoggedIn] = React.useState<boolean>(true);
+
+  React.useEffect(() => {
+    setIsLoggedIn(
+      Boolean(JSON.parse(localStorage.getItem("loggedIn") || "false"))
+    );
+  }, []);
+
   if (isLoading) {
     return (
       <div className="h-100 d-flex justify-content-center align-items-center flex-column">
@@ -35,7 +45,7 @@ const ClubRanksList = ({ clubs, isLoading }: ClubRanksListProps) => {
         );
       })}
 
-      {clubs?.[0].prompt?.length && (
+      {!isLoggedIn && (
         <div
           style={{
             display: "flex",
@@ -47,7 +57,11 @@ const ClubRanksList = ({ clubs, isLoading }: ClubRanksListProps) => {
           }}
         >
           <Image src="/images/lock.svg" alt="lock" width={50} height={50} />
-          <h4>To see more results, please sign up.</h4>
+          <h4>
+            To see more results, please{" "}
+            <Link href={PAGES.SIGN_UP}>sign up</Link> or{" "}
+            <Link href={PAGES.SIGN_IN}>sign in</Link>.
+          </h4>
         </div>
       )}
     </>

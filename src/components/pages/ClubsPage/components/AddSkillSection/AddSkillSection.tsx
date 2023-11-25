@@ -27,6 +27,7 @@ const AddSkillSection = ({ setIsLoading, setClubs }: AddSkillSectionProps) => {
       method: "POST",
       body: JSON.stringify({
         resume,
+        interests,
       }),
     })
       .then((res) => res.json())
@@ -68,7 +69,7 @@ const AddSkillSection = ({ setIsLoading, setClubs }: AddSkillSectionProps) => {
 
   return (
     <>
-      <Accordion defaultActiveKey={"resume"} id={"resume"}>
+      <Accordion defaultActiveKey={"0"} id={"resume"}>
         <Accordion.Item eventKey="0">
           <Accordion.Header>
             Paste your resume <span className={styles.required}>*</span>{" "}

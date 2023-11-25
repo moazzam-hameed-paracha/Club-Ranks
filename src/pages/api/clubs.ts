@@ -1,4 +1,8 @@
-import { PrismaClient, Club as ClubType } from "@prisma/client";
+import {
+  PrismaClient,
+  Club as ClubType,
+  User as UserType,
+} from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 import {
   cosineSimilarity,
@@ -24,6 +28,9 @@ export default async (
   req: NextApiRequest,
   res: NextApiResponse<ClubGetRes | ClubPostReq | { error: unknown }>
 ) => {
+  const currUser = JSON.parse(req.cookies["userData"] || "{}") as UserType;
+  const isLoggedIn = Boolean(currUser?.id?.length);
+
   if (req.method === "GET") {
     try {
       const clubs = await prisma.club.findMany({
@@ -36,15 +43,22 @@ export default async (
         },
       });
 
+      if (!isLoggedIn) {
+        return res.json({ clubs: clubs.slice(0, 5) });
+      }
+
       res.json({ clubs });
     } catch (error) {
       return res.status(500).json({ error });
     }
   } else if (req.method === "POST") {
     // get request body
-    const { resume } = JSON.parse(req.body);
+    const { resume, interests } = JSON.parse(req.body);
 
-    const resumeEmbeddings = await getEmbeddings(resume, openai);
+    const str = interests?.length ? resume + " " + interests : resume;
+
+    const resumeEmbeddings = await getEmbeddings(str, openai);
+
     const clubs = (await prisma.club.findMany())
       .map((club) => {
         const similarity = cosineSimilarity(
@@ -79,8 +93,19 @@ export default async (
         resume,
         type: "club",
         results: finalData,
+        user: isLoggedIn
+          ? {
+              connect: {
+                id: currUser?.id,
+              },
+            }
+          : undefined,
       },
     });
+
+    if (!isLoggedIn) {
+      return res.json({ clubs: [finalData[finalData.length - 1]] });
+    }
 
     return res.json({ clubs: finalData });
   }

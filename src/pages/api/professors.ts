@@ -1,4 +1,8 @@
-import { PrismaClient, Professor as ProfessorType } from "@prisma/client";
+import {
+  PrismaClient,
+  Professor as ProfessorType,
+  User as UserType,
+} from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 import {
   cosineSimilarity,
@@ -24,6 +28,9 @@ export default async (
   req: NextApiRequest,
   res: NextApiResponse<ProfessorGetRes | ProfessorPostReq | { error: unknown }>
 ) => {
+  const currUser = JSON.parse(req.cookies["userData"] || "{}") as UserType;
+  const isLoggedIn = Boolean(currUser?.id?.length);
+
   if (req.method === "GET") {
     try {
       const professors = await prisma.professor.findMany({
@@ -39,15 +46,22 @@ export default async (
         },
       });
 
+      if (!isLoggedIn) {
+        return res.json({ professors: professors.slice(0, 5) });
+      }
+
       res.json({ professors });
     } catch (error) {
       return res.status(500).json({ error });
     }
   } else if (req.method === "POST") {
     // get request body
-    const { resume } = JSON.parse(req.body);
+    const { resume, interests } = JSON.parse(req.body);
 
-    const resumeEmbeddings = await getEmbeddings(resume, openai);
+    const str = interests?.length ? resume + " " + interests : resume;
+
+    const resumeEmbeddings = await getEmbeddings(str, openai);
+
     const professors = (await prisma.professor.findMany())
       .map((professor) => {
         const similarity = cosineSimilarity(
@@ -84,8 +98,19 @@ export default async (
         resume,
         type: "professor",
         results: finalData,
+        user: isLoggedIn
+          ? {
+              connect: {
+                id: currUser?.id,
+              },
+            }
+          : undefined,
       },
     });
+
+    if (!isLoggedIn) {
+      return res.json({ professors: [finalData[finalData.length - 1]] });
+    }
 
     return res.json({ professors: finalData });
   }
