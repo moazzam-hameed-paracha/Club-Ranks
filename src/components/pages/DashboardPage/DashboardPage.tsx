@@ -10,7 +10,12 @@ const DashboardPage = () => {
   return (
     <>
       <CustomHeader />
-      <section className="p-3">
+      <section
+        className="p-3 "
+        style={{
+          height: "calc(100vh - 70px)",
+        }}
+      >
         <div className="w-50 mx-auto">
           <h2 className="text-center text-white">
             Discover where you belong with EDUNOT!

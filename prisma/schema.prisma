@@ -31,12 +31,13 @@ model Class {
 }
 
 model Club {
-  id          String  @id @default(auto()) @map("_id") @db.ObjectId
-  name        String
-  explanation String
-  embedding   Json[]
-  similarity  Int?
-  prompt      String?
+  id                 String  @id @default(auto()) @map("_id") @db.ObjectId
+  name               String
+  explanation        String
+  cleanedExplanation String
+  embedding          Json[]
+  similarity         Int?
+  prompt             String?
 }
 
 model Analytics {
@@ -45,4 +46,12 @@ model Analytics {
   resume    String
   results   Json[]
   timestamp DateTime @default(now())
+}
+
+model User {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

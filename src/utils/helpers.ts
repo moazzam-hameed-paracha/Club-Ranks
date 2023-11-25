@@ -135,7 +135,7 @@ export const getGPTPrompt = async (
 
   const splitData = response.choices[0].text.split("Answer:");
 
-  if (splitData.length < 1) {
+  if (splitData.length > 1) {
     return JSON.parse(splitData[1]) as GPTPromptType;
   }
 

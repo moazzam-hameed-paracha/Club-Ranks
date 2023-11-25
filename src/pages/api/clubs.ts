@@ -13,7 +13,7 @@ const openai = new OpenAI({
 });
 
 export type ClubGetRes = {
-  clubs: Omit<ClubType, "embedding">[];
+  clubs: Omit<ClubType, "embedding" | "cleanedExplanation">[];
 };
 
 export type ClubPostReq = ClubGetRes;

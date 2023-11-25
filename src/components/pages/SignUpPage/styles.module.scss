@@ -1,0 +1,26 @@
+.card {
+  width: 100%;
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+
+  button {
+    // have glow effect on hover
+    transition: all 0.3s ease;
+    &:hover {
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+    // ripple effect on click
+    &:active {
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+  }
+}
+
+.container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+}

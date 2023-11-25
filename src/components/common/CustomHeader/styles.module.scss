@@ -1,41 +1,4 @@
 .nav {
-  position: sticky;
-  top: 0;
-  height: 70px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   background-color: white;
-  z-index: 1024;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0px 10px;
-
-  .nav_title {
-    margin-right: auto;
-    text-decoration: none;
-  }
-
-  div {
-    width: 65%;
-    display: flex;
-    gap: 20px;
-  }
-  
-  a {
-    font-weight: bold;
-    padding: 0;
-    font-size: 20px;
-    color: rgba(78, 83, 100, 1);
-  }
-
-  input {
-    height: 40px;
-    width: 500px;
-  }
-
-  select {
-    height: 40px;
-    width: 130px;
-    margin-left: 5px;
-  }
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }

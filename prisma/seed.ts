@@ -47,7 +47,7 @@ async function main() {
       } else if (name === "club") {
         const row = _row as (typeof clubData)[0];
         embedding = (
-          await getEmbeddings(row.name + " " + row.explanation, openai)
+          await getEmbeddings(row.name + " " + row.cleanedExplanation, openai)
         ).data[0].embedding;
       }
 
