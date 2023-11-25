@@ -1,9 +1,10 @@
-import { CustomHeader, LogoCarousel } from "@src/components/common";
+import { CustomHeader, LogoCarousel, DashboardCard } from "@src/components/common";
 import React, { useEffect } from "react";
 import styles from "./styles.module.scss";
 import { Button } from "react-bootstrap";
 import { useRouter } from "next/navigation";
 import { PAGES } from "@src/constants/pages";
+import { FaUsers, FaChalkboardTeacher, FaBookOpen } from "react-icons/fa";
 
 const DashboardPage = () => {
   const router = useRouter();
@@ -19,38 +20,40 @@ const DashboardPage = () => {
     <>
       <CustomHeader />
       <section
-        className="p-3 d-flex flex-column justify-content-center align-items-center"
+        className="p-3 d-flex flex-column justify-content-between align-items-center"
         style={{
-          height: "calc(100vh - 86px)",
+          minHeight: "calc(100vh - 86px)",
         }}
       >
-        <div className="w-50 mx-auto">
+        <div className="container mx-auto mb-4">
           <h2 className="text-center text-white">
             Discover where you belong with EDUNOT!
           </h2>
           <hr />
+          <div className="text-white lead">
+            Embark on a personalized academic adventure tailored just for you. Our platform is designed to seamlessly integrate your unique interests and academic CV to match you with the ideal clubs, mentors, and coursework. Dive into a world where your education is more than just classes; it’s about the connections you make, the mentors who inspire, and the experiences that shape your future. Begin the journey to a fulfilling university life that resonates with your individual aspirations and academic endeavors.
+          </div>
 
-          {!isLoggedIn && (
-            <div className={styles.cardOuter}>
-              <div className={styles.cardInner}>
-                <h5>Enter your CV/Interests, and see which where you fit!</h5>
-                <h5>
-                  Clubs to join, which Professors to research, & what Classes to
-                  take!
-                </h5>
-
-                <Button
-                  variant="outline-secondary"
-                  onClick={() => router.push(PAGES.SIGN_UP)}
-                >
-                  SIGN UP!
-                </Button>
-              </div>
-            </div>
-          )}
         </div>
-        <div className="mt-auto mb-4">
-          <LogoCarousel images={IMAGES} />
+        <div className="container">
+          <h2 className="text-center text-white mt-2">
+            Features
+          </h2>
+          <hr />
+          <div className="d-flex gap-4 justify-content-between">
+            <DashboardCard title="Find Your Community" subtitle="Connect with clubs that match your passions and interests." icon={<FaUsers size={96} />}/>
+            <DashboardCard title="Explore Mentorship" subtitle="Discover professors whose research aligns with your academic goals." icon={<FaChalkboardTeacher size={96} />}/>
+            <DashboardCard title="Tailor Your Learning" subtitle="Select classes that will pave the path for your future career." icon={<FaBookOpen size={96} />}/>
+          </div>
+        </div>
+        <div className="container">
+          <h2 className="text-center text-white mt-4">
+            Universities
+          </h2>
+          <hr />
+          <div className="mb-4">
+            <LogoCarousel images={IMAGES} />
+          </div>
         </div>
       </section>
     </>

@@ -38,7 +38,7 @@ const LogoCarousel: React.FC<Props> = ({ images }) => {
                 <Button
                   variant="primary"
                   type="submit"
-                  className="w-100 mt-5 bg-transparent border-white"
+                  className="w-100 bg-transparent border-white"
                 >
                   {name}
                 </Button>
