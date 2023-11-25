@@ -45,6 +45,7 @@ const SignUpPage: React.FC = () => {
           alert(res.error);
         } else {
           alert("Success!");
+          localStorage.setItem("loggedIn", "true");
           router.push("/");
         }
       })
