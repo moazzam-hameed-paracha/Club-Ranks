@@ -3,10 +3,54 @@ import {
   LogoCarousel,
   DashboardCard,
 } from "@src/components/common";
+import { APIS } from "@src/constants/api";
 import React from "react";
+import { Spinner } from "react-bootstrap";
 import { FaUsers, FaChalkboardTeacher, FaBookOpen } from "react-icons/fa";
 
 const DashboardPage = () => {
+  const [isLoggedIn, setLoggedIn] = React.useState(false);
+
+  React.useEffect(() => {
+
+    fetch(APIS.SIGN_IN, {
+      method: "POST",
+      body: JSON.stringify({ email: "visitor@visitor.com", password: "123" }),
+    })
+      .then((res) => {
+        setLoggedIn(true);
+        return res.json();
+      })
+      .then((res) => {
+        if (res.error) {
+          alert(res.error);
+        } else {
+          localStorage.setItem("loggedIn", "true");
+        }
+      })
+      .catch((err) => {
+        setLoggedIn(false);
+        console.log(err);
+      });
+  }, []);
+
+  if (!isLoggedIn) {
+    return (
+      <div
+        className="d-flex justify-content-center align-items-center flex-column"
+        style={{
+          height: "100vh",
+        }}
+      >
+        <Spinner className="mb-2" animation="grow" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+        <p>Loading Dashboard...</p>
+        <p>It might take a few seconds</p>
+      </div>
+    );
+  }
+
   return (
     <>
       <CustomHeader />
