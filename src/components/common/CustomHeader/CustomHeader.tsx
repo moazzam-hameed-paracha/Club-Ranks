@@ -1,11 +1,16 @@
 import React, { useEffect } from "react";
 import Image from "next/image";
 import styles from "./styles.module.scss";
-import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
+import { Navbar, Container, Nav } from "react-bootstrap";
 import { PAGES } from "@src/constants/pages";
 import { FaRegUser } from "react-icons/fa";
 import { VscSignOut } from "react-icons/vsc";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { APIS } from "@src/constants/api";
+
 function Header() {
+  const router = useRouter();
   const [isLoggedIn, setLoggedIn] = React.useState(false);
 
   useEffect(() => {
@@ -13,10 +18,10 @@ function Header() {
     setLoggedIn(storedData);
   }, []);
 
-  const handleSignout = () => {
+  const handleSignOut = () => {
     localStorage.setItem("loggedIn", "false");
     setLoggedIn(false);
-    window.location.href = "/api/auth/sign-out";
+    router.push(APIS.SIGN_OUT);
   };
 
   return (
@@ -26,15 +31,17 @@ function Header() {
           <Image src="/images/logo.png" alt="" width={75} height={60} />
         </Navbar.Brand>
         <Nav className="d-flex justify-space-between">
-          <NavDropdown title="Rank Lists" id="basic-nav-dropdown">
-            <NavDropdown.Item href={PAGES.PROFESSORS}>
-              Professors
-            </NavDropdown.Item>
-            <NavDropdown.Divider />
-            <NavDropdown.Item href={PAGES.CLASS}>Classes</NavDropdown.Item>
-            <NavDropdown.Divider />
-            <NavDropdown.Item href={PAGES.CLUBS}>Clubs</NavDropdown.Item>
-          </NavDropdown>
+          <Link href={PAGES.PROFESSORS}>Professor Matches</Link>
+          <Link href={PAGES.CLASS}>Class Matches</Link>
+          <Link href={PAGES.CLUBS}>Club Matches</Link>
+        </Nav>
+        <Nav className="mx-auto">
+          <Image
+            src="/images/universities/thumb_UPenn-Logo.png"
+            alt="UPenn"
+            width={100}
+            height={60}
+          />
         </Nav>
         <Nav className="ms-auto">
           {!isLoggedIn ? (
@@ -48,7 +55,7 @@ function Header() {
           ) : (
             <Nav.Link
               className="d-flex justify-content-center align-items-center gap-2"
-              onClick={handleSignout}
+              onClick={handleSignOut}
             >
               <VscSignOut size={24} />
               <span>Sign Out</span>
