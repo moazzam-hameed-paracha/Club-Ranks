@@ -84,7 +84,7 @@ const IMAGES = [
     alt: "1",
   },
   {
-    src: "/images/universities/_cornell.png",
+    src: "/images/universities/cornell.png",
     alt: "1",
   },
   {
